@@ -16,19 +16,23 @@ public class PyGlue {
 		this.interpreter = new PythonInterpreter();
 	}
 
-	public void execfile( final String fileName ) {
+	public void loadScript( final String fileName ) {
 		InputStream is = this.getClass().getResourceAsStream(fileName);
 		this.interpreter.execfile(is);
 	}
 
-	public PyInstance createClass( final String className, final String opts ) {
+	public PyInstance getInstance( final String className, final String opts ) {
 		return (PyInstance) this.interpreter.eval(className + "(" + opts + ")");
+	}
+	
+	public PyInstance getInstance( final String className ) {
+		return (PyInstance) this.interpreter.eval(className + "()");
 	}
 
 	public static void main( String gargs[] ) {
 		PyGlue pg = new PyGlue();
-		pg.execfile("hello.py");
-		PyInstance hello = pg.createClass("Hello", "None");
+		pg.loadScript("hello.py");
+		PyInstance hello = pg.getInstance("Hello", "None");
 		hello.invoke("run");
 		hello.invoke("hello", new PyString("chudur-budur"));
 	}

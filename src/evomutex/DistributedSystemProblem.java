@@ -28,8 +28,8 @@ public class DistributedSystemProblem extends GPProblem implements SimpleProblem
 		super.setup(evstate, base);
 		// get a new PyGlue 
 		pg = new PyGlue();
-		pg.execfile("/simulator/parser.py");
-		parser = pg.createClass("Parser", "");
+		pg.loadScript("/simulator/parser.py");
+		parser = pg.getInstance("Parser");
 	}
 
 	public void evaluate(final EvolutionState evstate,
