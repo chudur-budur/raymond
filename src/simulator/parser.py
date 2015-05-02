@@ -20,14 +20,19 @@ class Parser:
     '''
 
     score = 1 
+    tree = None
     
     def __init__(self):
         pass
 
     def get_score(self):
         return self.score
+
+    def get_tree(self):
+        return self.tree
     
     def parse_tree(self, treeString):
+        self.tree = treeString 
         self.score = self.score + random.randint(1,2)
 
         # flatten the string

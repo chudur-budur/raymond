@@ -13,5 +13,5 @@ rm -rf evomutex/*.class evomutex/*/*.class;
 # javac -classpath .:distsim/*:evomutex/*:../lib/* evomutex/*.java evomutex/*/*.java;
 javac -classpath .:pyglue/*:evomutex/*:../lib/* evomutex/*.java evomutex/*/*.java;
 # run the ec code
-# java -classpath .:../:pyglue/*:evomutex/*:../lib/* ec.Evolve -file evomutex/evomutex.params ;
+java -classpath .:../:pyglue/*:evomutex/*:../lib/* ec.Evolve -file evomutex/evomutex.params ;
 

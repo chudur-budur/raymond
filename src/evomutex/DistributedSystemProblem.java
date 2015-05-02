@@ -28,7 +28,7 @@ public class DistributedSystemProblem extends GPProblem implements SimpleProblem
 		super.setup(evstate, base);
 		// get a new PyGlue 
 		pg = new PyGlue();
-		pg.execfile("/simulator/src/parser.py");
+		pg.execfile("/simulator/parser.py");
 		parser = pg.createClass("Parser", "");
 	}
 
@@ -42,13 +42,15 @@ public class DistributedSystemProblem extends GPProblem implements SimpleProblem
 			PrintWriter writer = new PrintWriter(stringWriter);
 			((GPIndividual)ind).trees[0].printTree(evstate, writer);
 			String tree = stringWriter.toString();
-			// ((GPIndividual)ind).printIndividual(evstate, writer);
 
 			evstate.output.println("evaluating tree:\n" + tree, threadnum);
 			// fireup the python simulator and pass the tree to it.
 			parser.invoke("parse_tree", new PyString(tree));
 			int score = ((PyInteger)parser.invoke("get_score")).getValue();
-			evstate.output.println("score: " + score + "\n", threadnum);
+			evstate.output.println("score: " + score, threadnum);
+			String pystr = ((PyString)parser.invoke("get_tree")).toString();
+			evstate.output.println("parser String: \n" + pystr + "\n", threadnum);
+
 
 			// faking the fitness value for now
 			// double score = evstate.random[threadnum].nextDouble();
