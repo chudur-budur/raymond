@@ -10,6 +10,7 @@ import networkx
 
 import raymonds
 import evoprog
+import treeParser
 
 
 class Process:
@@ -30,6 +31,41 @@ class Process:
 
 if __name__ == "__main__":
     
+    testTree = '''
+ (progn2 (if (not (and (nand is-q-empty has-token)
+     (and is-waiting-for-token is-holder))) (progn2
+     (progn2 (send-req-to holder) (if is-regreq
+         enter-cs)) (progn2 (send-req-to holder) (send-req-to
+     holder)))) (progn2 (progn2 (send-token-to
+     holder) (if-else (and has-token is-holder)
+     (if-else is-incs register-req-q enter-cs)
+     (if is-holder enter-cs))) (if (or (nor is-incs
+     is-q-empty) (and want-cs is-incs)) (send-req-to
+     holder))))
+    '''
+    
+    testTree = """(progn2
+    (if is-incs (set-incs false))
+    (progn2
+        (if-else want-cs 
+            (if has-token (enter-cs))
+            (if (not is-regreq (register-req-q))))
+        (progn2
+            (if (and (and (not has-token) (not is-q-empty)) is-waiting-for-token)
+                (send-req-to holder)
+                (progn2
+                    (if (and (and is-holder (not is-incs)) (not is-q-empty))
+                            (send-token-to q-top))
+                    (if (and (and has-token (not is-incs) (not is-q-empty)))
+                        (progn2
+                            (send-token-to q-top)
+                            (if (not is-q-empty)
+                                    (send-req-to holder)))))))))
+"""
+    
+    programTree = (treeParser.Parser()).parse_tree(testTree)
+    
+    
     # create a tree
     p1 = Process(1)
     p2 = Process(2)
@@ -44,9 +80,9 @@ if __name__ == "__main__":
     p3.add_neighbor(p1)
     
     # set the program
-    p1.set_program(raymonds.Raymonds())
-    p2.set_program(raymonds.Raymonds())
-    p3.set_program(raymonds.Raymonds())    
+    p1.set_program(evoprog.Evoprog(programTree))
+    p2.set_program(evoprog.Evoprog(programTree))
+    p3.set_program(evoprog.Evoprog(programTree))    
     
     # initialize the simulation
     
