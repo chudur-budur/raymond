@@ -1,0 +1,183 @@
+# Copyright 2006 by Sean Luke and George Mason University
+# Licensed under the Academic Free License version 3.0
+# See the file "LICENSE" for more information
+
+parent.0 = @ec.Evolve gp/koza/koza.params
+
+gp.type.a.size = 3
+gp.type.a.0.name = boolean
+gp.type.a.1.name = nil
+gp.type.a.2.name = node-type
+
+gp.tc.size = 1
+gp.tc.0 = ec.gp.GPTreeConstraints
+gp.tc.0.name = tc0
+gp.tc.fset = f0
+gp.tc.returns = nil
+
+gp.nc.size = 9
+
+# true/false --> <nil>
+# gp.nc.0 = ec.gp.GPNodeConstraints
+# gp.nc.0.name = boolean-state
+# gp.nc.0.returns = binary-value
+# gp.nc.0.size = 0
+
+# enter-cs, register-req-q --> <nil>
+gp.nc.0 = ec.gp.GPNodeConstraints
+gp.nc.0.name = action
+gp.nc.0.returns = nil
+gp.nc.0.size = 0
+
+# send-req-to <node-type> --> <nil> 
+gp.nc.1 = ec.gp.GPNodeConstraints
+gp.nc.1.name = arg-action
+gp.nc.1.returns = nil
+gp.nc.1.size = 1
+gp.nc.1.child.0 = node-type
+
+# if <boolean> <nil> --> <nil>
+gp.nc.2 = ec.gp.GPNodeConstraints
+gp.nc.2.name = single-conditional
+gp.nc.2.returns = nil
+gp.nc.2.size = 2
+gp.nc.2.child.0 = boolean
+gp.nc.2.child.1 = nil
+
+# if <boolean> <nil> <nil> --> <nil>
+gp.nc.3 = ec.gp.GPNodeConstraints
+gp.nc.3.name = double-conditional
+gp.nc.3.returns = nil
+gp.nc.3.size = 3
+gp.nc.3.child.0 = boolean
+gp.nc.3.child.1 = nil
+gp.nc.3.child.2 = nil
+
+# is-incs --> boolean
+gp.nc.4 = ec.gp.GPNodeConstraints
+gp.nc.4.name = sensor
+gp.nc.4.returns = boolean
+gp.nc.4.size = 0
+
+# not <boolean> --> <boolean>
+gp.nc.5 = ec.gp.GPNodeConstraints
+gp.nc.5.name = logical-unitary
+gp.nc.5.returns = boolean
+gp.nc.5.size = 1
+gp.nc.5.child.0 = boolean
+
+# and <boolean> <boolean> --> <boolean>
+gp.nc.6 = ec.gp.GPNodeConstraints
+gp.nc.6.name = logical-binary
+gp.nc.6.returns = boolean
+gp.nc.6.size = 2
+gp.nc.6.child.0 = boolean
+gp.nc.6.child.1 = boolean
+
+# progn2 <nil> <nil> --> <nil>
+gp.nc.7 = ec.gp.GPNodeConstraints
+gp.nc.7.name = binary-branching
+gp.nc.7.returns = nil
+gp.nc.7.size = 2
+gp.nc.7.child.0 = nil
+gp.nc.7.child.1 = nil
+
+# progn3 <nil> <nil> <nil> --> <nil>
+# gp.nc.8 = ec.gp.GPNodeConstraints
+# gp.nc.8.name = ternary-branching
+# gp.nc.8.returns = nil
+# gp.nc.8.size = 3
+# gp.nc.8.child.0 = nil
+# gp.nc.8.child.1 = nil
+# gp.nc.8.child.2 = nil
+
+# progn4 <nil> <nil> <nil> --> <nil>
+# gp.nc.9 = ec.gp.GPNodeConstraints
+# gp.nc.9.name = quaternary-branching
+# gp.nc.9.returns = nil
+# gp.nc.9.size = 4
+# gp.nc.9.child.0 = nil
+# gp.nc.9.child.1 = nil
+# gp.nc.9.child.2 = nil
+# gp.nc.9.child.3 = nil
+
+# holder, q-top
+gp.nc.8 = ec.gp.GPNodeConstraints
+gp.nc.8.name = node-erc
+gp.nc.8.returns = node-type
+gp.nc.8.size = 0
+
+
+# total number of functions
+gp.fs.0.size = 20
+# Conditionals
+gp.fs.0.func.0 = evomutex.func.If
+gp.fs.0.func.0.nc = single-conditional
+gp.fs.0.func.1 = evomutex.func.IfElse
+gp.fs.0.func.1.nc = double-conditional
+
+# Logical-unitary
+gp.fs.0.func.2 = evomutex.func.Not
+gp.fs.0.func.2.nc = logical-unitary
+
+# Logical-binary
+gp.fs.0.func.3 = evomutex.func.And
+gp.fs.0.func.3.nc = logical-binary
+gp.fs.0.func.4 = evomutex.func.Or
+gp.fs.0.func.4.nc = logical-binary
+gp.fs.0.func.5 = evomutex.func.Nor
+gp.fs.0.func.5.nc = logical-binary
+gp.fs.0.func.6 = evomutex.func.Nand
+gp.fs.0.func.6.nc = logical-binary
+
+# Branching
+gp.fs.0.func.7 = evomutex.func.Progn2
+gp.fs.0.func.7.nc = binary-branching
+# gp.fs.0.func.5 = evomutex.func.Progn3
+# gp.fs.0.func.5.nc = ternary-branching
+# gp.fs.0.func.5 = evomutex.func.Progn4
+# gp.fs.0.func.5.nc = quaternary-branching
+ 
+# Sensors
+gp.fs.0.func.8 = evomutex.func.IsInCs
+gp.fs.0.func.8.nc = sensor
+gp.fs.0.func.9 = evomutex.func.WantCs
+gp.fs.0.func.9.nc = sensor
+gp.fs.0.func.10 = evomutex.func.HasToken
+gp.fs.0.func.10.nc = sensor
+gp.fs.0.func.11 = evomutex.func.IsRegReq
+gp.fs.0.func.11.nc = sensor
+gp.fs.0.func.12 = evomutex.func.IsWaitingForToken
+gp.fs.0.func.12.nc = sensor
+gp.fs.0.func.13 = evomutex.func.IsQEmpty
+gp.fs.0.func.13.nc = sensor
+gp.fs.0.func.14 = evomutex.func.IsHolder
+gp.fs.0.func.14.nc = sensor
+
+# Actions
+gp.fs.0.func.15 = evomutex.func.EnterCs
+gp.fs.0.func.15.nc = action
+gp.fs.0.func.16 = evomutex.func.RegisterReqQ
+gp.fs.0.func.16.nc = action
+gp.fs.0.func.17 = evomutex.func.SendTokenTo
+gp.fs.0.func.17.nc = arg-action
+gp.fs.0.func.18 = evomutex.func.SendReqTo
+gp.fs.0.func.18.nc = arg-action
+
+# ERC node
+gp.fs.0.func.19 = evomutex.func.NodeErc
+gp.fs.0.func.19.nc = node-erc
+
+# We specify our problem here
+eval.problem = evomutex.DistributedSystemProblem
+# eval.problem.evaluation = recursive
+# eval.problem.max-death = 0
+
+# this is the GPData
+eval.problem.data = evomutex.TypeData
+
+pop.subpop.0.size = 20
+generations = 100
+# seed.0 = 123983
+# seed.0 = 123456789
+seed.0 = 987654321

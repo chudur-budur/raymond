@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# clean the python glue
+rm -rf pyglue/*.class ;
+# build the python glue
+javac -classpath .:pyglue/*:../lib/* pyglue/*.java ;
+# run the test code
+# java -classpath .:pyglue/*:../lib/* pyglue.PyGlue ;
+
+# clean the ec part
+rm -rf evomutex/*.class evomutex/*/*.class;
+# build the ec code 
+# javac -classpath .:distsim/*:evomutex/*:../lib/* evomutex/*.java evomutex/*/*.java;
+javac -classpath .:pyglue/*:evomutex/*:../lib/* evomutex/*.java evomutex/*/*.java;
+# run the ec code
+# java -classpath .:../:pyglue/*:evomutex/*:../lib/* ec.Evolve -file evomutex/evomutex.params ;
+
