@@ -109,7 +109,7 @@ gp.nc.8.size = 0
 
 
 # total number of functions
-gp.fs.0.size = 20
+gp.fs.0.size = 18
 # Conditionals
 gp.fs.0.func.0 = evomutex.func.If
 gp.fs.0.func.0.nc = single-conditional
@@ -125,48 +125,48 @@ gp.fs.0.func.3 = evomutex.func.And
 gp.fs.0.func.3.nc = logical-binary
 gp.fs.0.func.4 = evomutex.func.Or
 gp.fs.0.func.4.nc = logical-binary
-gp.fs.0.func.5 = evomutex.func.Nor
-gp.fs.0.func.5.nc = logical-binary
-gp.fs.0.func.6 = evomutex.func.Nand
-gp.fs.0.func.6.nc = logical-binary
+#gp.fs.0.func.5 = evomutex.func.Nor
+#gp.fs.0.func.5.nc = logical-binary
+#gp.fs.0.func.6 = evomutex.func.Nand
+#gp.fs.0.func.6.nc = logical-binary
 
 # Branching
-gp.fs.0.func.7 = evomutex.func.Progn2
-gp.fs.0.func.7.nc = binary-branching
+gp.fs.0.func.5 = evomutex.func.Progn2
+gp.fs.0.func.5.nc = binary-branching
 # gp.fs.0.func.5 = evomutex.func.Progn3
 # gp.fs.0.func.5.nc = ternary-branching
 # gp.fs.0.func.5 = evomutex.func.Progn4
 # gp.fs.0.func.5.nc = quaternary-branching
  
 # Sensors
-gp.fs.0.func.8 = evomutex.func.IsInCs
+gp.fs.0.func.6 = evomutex.func.IsInCs
+gp.fs.0.func.6.nc = sensor
+gp.fs.0.func.7 = evomutex.func.WantCs
+gp.fs.0.func.7.nc = sensor
+gp.fs.0.func.8 = evomutex.func.HasToken
 gp.fs.0.func.8.nc = sensor
-gp.fs.0.func.9 = evomutex.func.WantCs
+gp.fs.0.func.9 = evomutex.func.IsRegReq
 gp.fs.0.func.9.nc = sensor
-gp.fs.0.func.10 = evomutex.func.HasToken
+gp.fs.0.func.10 = evomutex.func.IsWaitingForToken
 gp.fs.0.func.10.nc = sensor
-gp.fs.0.func.11 = evomutex.func.IsRegReq
+gp.fs.0.func.11 = evomutex.func.IsQEmpty
 gp.fs.0.func.11.nc = sensor
-gp.fs.0.func.12 = evomutex.func.IsWaitingForToken
+gp.fs.0.func.12 = evomutex.func.IsHolder
 gp.fs.0.func.12.nc = sensor
-gp.fs.0.func.13 = evomutex.func.IsQEmpty
-gp.fs.0.func.13.nc = sensor
-gp.fs.0.func.14 = evomutex.func.IsHolder
-gp.fs.0.func.14.nc = sensor
 
 # Actions
-gp.fs.0.func.15 = evomutex.func.EnterCs
-gp.fs.0.func.15.nc = action
-gp.fs.0.func.16 = evomutex.func.RegisterReqQ
-gp.fs.0.func.16.nc = action
-gp.fs.0.func.17 = evomutex.func.SendTokenTo
-gp.fs.0.func.17.nc = arg-action
-gp.fs.0.func.18 = evomutex.func.SendReqTo
-gp.fs.0.func.18.nc = arg-action
+gp.fs.0.func.13 = evomutex.func.EnterCs
+gp.fs.0.func.13.nc = action
+gp.fs.0.func.14 = evomutex.func.RegisterReqQ
+gp.fs.0.func.14.nc = action
+gp.fs.0.func.15 = evomutex.func.SendTokenTo
+gp.fs.0.func.15.nc = arg-action
+gp.fs.0.func.16 = evomutex.func.SendReqTo
+gp.fs.0.func.16.nc = arg-action
 
 # ERC node
-gp.fs.0.func.19 = evomutex.func.NodeErc
-gp.fs.0.func.19.nc = node-erc
+gp.fs.0.func.17 = evomutex.func.NodeErc
+gp.fs.0.func.17.nc = node-erc
 
 # We specify our problem here
 eval.problem = evomutex.DistributedSystemProblem
@@ -176,8 +176,8 @@ eval.problem = evomutex.DistributedSystemProblem
 # this is the GPData
 eval.problem.data = evomutex.TypeData
 
-pop.subpop.0.size = 20
-generations = 100
+pop.subpop.0.size = 500
+generations = 500
 # seed.0 = 123983
 # seed.0 = 123456789
 seed.0 = 987654321

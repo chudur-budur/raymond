@@ -15,11 +15,11 @@ class Node:
     
     """
     def __str__(self):
-        return str([self.instruction,self.arguments])
+        return "("+str(self.instruction)+","+str(self.arguments)+")"
     
     def __repr__(self):
-        return str([self.instruction,self.arguments])
-    """ 
+        return "("+str(self.instruction)+","+str(self.arguments)+")"
+    """
         
 class Parser:
     '''

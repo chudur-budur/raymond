@@ -50,7 +50,8 @@ class Evoprog:
             "send-token-to":self.instr_send_token_to,
             "no-op":self.instr_no_op,
             "q-top":self.instr_q_top,
-            "holder":self.instr_holder
+            "holder":self.instr_holder,
+            "enter-cs-temp":self.instr_enter_cs_temp
             }
     
     def set_process(self, process):
@@ -72,7 +73,6 @@ class Evoprog:
     #
     
     def instr_if(self,args,msgBuf):
-        print args[0]
         if self.instructions[args[0].instruction](args[0].arguments,msgBuf):
             self.instructions[args[1].instruction](args[1].arguments,msgBuf)
     
@@ -148,6 +148,12 @@ class Evoprog:
     
     def instr_enter_cs(self,args,msgBuf):
         self.inCs = True
+        self.wantCs = False
+        self.registeredRequest = False
+    
+    def instr_enter_cs_temp(self,args,msgBuf):
+        if self.inCs:
+            self.inCs = False
     
     def instr_send_req_to(self,args,msgBuf):
         recipient = self.instructions[args[0].instruction](args[0].arguments,msgBuf)
@@ -172,7 +178,10 @@ class Evoprog:
     #
     
     def instr_q_top(self,args,msgBuf):
-        return self.Q.popleft()
+        if len(self.Q) != 0:
+            return self.Q.popleft()
+        else:
+            return -1
     
     def instr_holder(self,args,msgBuf):
         return self.holder

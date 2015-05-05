@@ -17,10 +17,8 @@ fi
 
 if [ "$arg" = "clean" ]; then
 	# clean the python glue
-	rm -rf pyglue/*.class ;
-	# clean the ec part
-	rm -rf evomutex/*.class evomutex/*/*.class;
-	exit 0 ;
+	rm -rf */*.class */*/*.class ;
+	rm -rf */*.pyc ;
 elif [ "$arg" = "run" ]; then
 	# run the test code
 	java -classpath .:pyglue/*:../lib/* pyglue.PyGlue ;
