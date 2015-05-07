@@ -1,0 +1,8 @@
+<prog> ::= <stmt>
+<stmt> ::= (progn2 <stmt> <stmt>) | (if <cond> <stmt>) | (if-else <cond> <stmt> <stmt>)
+<stmt> ::= (enter-cs) | (exit-cs) | (register-req-q) 
+<stmt> ::= (send-token-to <arg>) | (send-req-to <arg>)
+<cond> ::= (and <cond> <cond>) | (or <cond> <cond>) | (not <cond>) 
+<cond> ::= (is-incs) | (want-cs) | (has-token) | (is-regreq) 
+<cond> ::= (is-waiting-for-token) | (is-q-empty) | (is-holder)
+<arg> ::= (ERC)

@@ -20,10 +20,11 @@ if [ "$arg" = "clean" ]; then
 	rm -rf */*.class */*/*.class ;
 	rm -rf */*.pyc ;
 elif [ "$arg" = "run" ]; then
-	# run the test code
-	java -classpath .:pyglue/*:../lib/* pyglue.PyGlue ;
+	# run the PyGlue test
+	# java -classpath .:pyglue/*:../lib/* pyglue.PyGlue ;
 	# run the ec code
 	java -classpath .:../:pyglue/*:evomutex/*:../lib/* ec.Evolve -file evomutex/evomutex.params ;	
+	# java -classpath .:../:pyglue/*:evomutex/*:../lib/* ec.Evolve -file evomutex/evomutex.ge.params ;
 else
 	# build the python glue
 	javac -classpath .:pyglue/*:../lib/* pyglue/*.java ;

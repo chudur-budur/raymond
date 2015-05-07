@@ -1,0 +1,32 @@
+# Copyright 2010 by Sean Luke and George Mason University
+# Licensed under the Academic Free License version 3.0
+# See the file "LICENSE" for more information
+
+# The best result found with GE were as follows --
+# steady-state GA
+# sensible initialization (needs reverse-mapping)
+# strongly typed GP function sets as provided in the ant.stgp.params
+# new grammar specified in ant.connor.grammar
+
+# if you want to test with a generic generational ga, use this file below --
+# parent.0 = ../../gp/ge/ge.generational.params
+# if you want to test with a steady-state ga, use this file below --
+# parent.0 = ../../gp/ge/ge.steadystate.params
+parent.0 = @ec.Evolve gp/ge/ge.params
+
+# Although these values are already set in the above two files,
+# you can test with these settings --
+# By default we don't allow wrapping
+ge.species.passes = 1
+# init-scheme
+ge.species.init-scheme = sensible
+
+# if you want to test with original ant params, use this file below --
+parent.1 = evomutex.params
+# if you want to test with strongly-typed function sets, use this file below -- 
+# parent.1 = ant.stgp.params
+ge.species.file.0 = evomutex.grammar
+
+# these are as usual
+eval.problem.problem = evomutex.DistributedSystemProblem
+eval.problem.problem.data = evomutex.TypeData

@@ -1,6 +1,7 @@
 package pyglue ;
 
 import java.io.* ;
+import java.net.*;
 import org.python.core.PyInstance;
 import org.python.core.PyString;
 import org.python.util.PythonInterpreter;
@@ -14,6 +15,14 @@ public class PyGlue {
 		PythonInterpreter.initialize(System.getProperties(),
 		                             System.getProperties(), new String[0]);
 		this.interpreter = new PythonInterpreter();
+	}
+	
+	public PyGlue(String pydir) throws Exception{
+		PythonInterpreter.initialize(System.getProperties(),
+		                             System.getProperties(), new String[0]);
+		this.interpreter = new PythonInterpreter();
+		URL url = this.getClass().getResource(pydir);
+		this.interpreter.getSystemState().path.pyadd(new PyString(url.toURI().getPath()));
 	}
 
 	public void loadScript( final String fileName ) {

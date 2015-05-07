@@ -9,11 +9,8 @@ import ec.gp.*;
 import ec.gp.koza.*;
 
 // Jython stuffs
-import org.python.core.PyInstance;
-import org.python.core.PyString;
-import org.python.core.PyInteger;
-import org.python.core.PyFloat;
-import org.python.util.PythonInterpreter;
+import org.python.core.*;
+import org.python.util.*;
 // python glue is here
 import pyglue.*;
 
@@ -25,12 +22,22 @@ public class DistributedSystemProblem extends GPProblem implements SimpleProblem
 	PyGlue pg ;
 	PyInstance sim ;
 
+	// simulation paramters
+	double[] seed = {0.363071798408, 0.335530881201, 0.749396843633, 
+				0.686701879371, 0.386633282042}; 
+	int[] nodes = {10,20,30,40,50};
+	int[] numSteps = {100,150,200,250,300};
+	double[] rates = {0.2,0.3,0.4,0.5,0.6}; 
+
 	public void setup(final EvolutionState evstate, final Parameter base) {
 		super.setup(evstate, base);
-		// get a new PyGlue 
-		pg = new PyGlue();
-		pg.loadScript("/simulator/simulator2.py");
-		sim = pg.getInstance("Simulator");
+		// get a new PyGlue
+		try { 
+			pg = new PyGlue("/sim");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		pg.loadScript("/sim/simulator.py");
 	}
 
 	public void evaluate(final EvolutionState evstate,
@@ -41,15 +48,32 @@ public class DistributedSystemProblem extends GPProblem implements SimpleProblem
 			// parse this tree to string
 			StringWriter stringWriter = new StringWriter();
 			PrintWriter writer = new PrintWriter(stringWriter);
-			((GPIndividual)ind).trees[0].printTree(evstate, writer);
+			GPTree gpt = ((GPIndividual)ind).trees[0];
+			int depth = gpt.child.depth();
+			int numNodes = gpt.child.numNodes(0);
+			gpt.printTree(evstate,writer);
 			String tree = stringWriter.toString();
-			tree = "(progn2 (enter-cs-temp)" + tree + ")" ;
-
+			
+			double score = 0.0 ;
+			// int idx = evstate.random[threadnum].nextInt(seed.length);
+			int idx = evstate.generation % (seed.length - 1); 
+			sim = pg.getInstance("Simulator");
+			PyList pl = new PyList();
+			pl.add(new PyFloat(seed[idx]));	
+			pl.add(new PyInteger(nodes[idx]));	
+			pl.add(new PyInteger(numSteps[idx]));	
+			pl.add(new PyFloat(rates[idx]));	
+			// (0.3, 0.7) --> better code than raymond ?
+			pl.add(new PyFloat(0.3)); 
+			pl.add(new PyFloat(0.7)); 
+			pl.add(new PyFloat(0.0));	
+			sim.invoke("set_params", pl);
 			// fireup the python simulator and pass the tree to it.
-			sim.invoke("run", new PyString(tree));
-			double score = ((PyFloat)sim.invoke("get_fitness")).getValue() + 1.0 ;
-
-
+			Object[] fvals = 
+				((PyList)sim.invoke("run", new PyString(tree))).toArray();
+			score = (depth < 5 ? 0.00000001 : 
+					((Double)fvals[fvals.length-1]).doubleValue()); 
+		
 			// the fitness better be KozaFitness!
 			KozaFitness f = ((KozaFitness)ind.fitness);
 			// could "not" divide by 0!
