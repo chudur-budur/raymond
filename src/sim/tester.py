@@ -16,6 +16,8 @@ import simulator
 
 if __name__ == "__main__":
     # test the simulator
+    # paste a tree and run this file like 
+    # > python tester.py
 
     # code for raymond's algorithm
     raymondTree = """(progn2
