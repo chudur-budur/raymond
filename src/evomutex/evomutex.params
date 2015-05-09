@@ -181,5 +181,5 @@ eval.problem.data = evomutex.TypeData
 pop.subpop.0.size = 200
 generations = 200
 # seed.0 = 123983
-seed.0 = 123456789
-# seed.0 = 987654321
+# seed.0 = 123456789
+seed.0 = 987654321

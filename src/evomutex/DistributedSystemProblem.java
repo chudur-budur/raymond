@@ -64,9 +64,9 @@ public class DistributedSystemProblem extends GPProblem implements SimpleProblem
 			pl.add(new PyInteger(numSteps[idx]));	
 			pl.add(new PyFloat(rates[idx]));	
 			// (0.3, 0.7) --> better code than raymond ?
-			pl.add(new PyFloat(0.3)); 
-			pl.add(new PyFloat(0.7)); 
-			pl.add(new PyFloat(0.0));	
+			pl.add(new PyFloat(0.5)); // mutexFitness weight 
+			pl.add(new PyFloat(0.5)); // progFitness weight
+			pl.add(new PyFloat(0.0)); // servedFitness weight	
 			sim.invoke("set_params", pl);
 			// fireup the python simulator and pass the tree to it.
 			Object[] fvals = 
